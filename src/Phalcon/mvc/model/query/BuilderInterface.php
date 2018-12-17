@@ -1,28 +1,26 @@
 <?php
+declare(strict_types=1);
 
 namespace Phalcon\Mvc\Model\Query;
+
+use Phalcon\Mvc\Model\QueryInterface;
 
 /**
  * Phalcon\Mvc\Model\Query\BuilderInterface
  *
  * Interface for Phalcon\Mvc\Model\Query\Builder
  */
-interface BuilderInterface
-{
-
-    const OPERATOR_OR = 'or';
-
-
-    const OPERATOR_AND = 'and';
-
+interface BuilderInterface {
+    public const OPERATOR_OR  = 'or';
+    public const OPERATOR_AND = 'and';
 
     /**
      * Sets the columns to be queried
      *
      * @param string|array $columns
-     * @return \Phalcon\Mvc\Model\Query\BuilderInterface
+     * @return self
      */
-    public function columns($columns);
+    public function columns($columns): BuilderInterface;
 
     /**
      * Return the columns to be queried
@@ -35,9 +33,9 @@ interface BuilderInterface
      * Sets the models who makes part of the query
      *
      * @param string|array $models
-     * @return \Phalcon\Mvc\Model\Query\BuilderInterface
+     * @return self
      */
-    public function from($models);
+    public function from($models): BuilderInterface;
 
     /**
      * Add a model to take part of the query
@@ -46,7 +44,7 @@ interface BuilderInterface
      * @param string $alias
      * @return \Phalcon\Mvc\Model\Query\BuilderInterface
      */
-    public function addFrom($model, $alias = null);
+    public function addFrom($model, $alias = null): BuilderInterface;
 
     /**
      * Return the models who makes part of the query
@@ -73,9 +71,9 @@ interface BuilderInterface
      * @param string $conditions
      * @param string $alias
      * @param string $type
-     * @return \Phalcon\Mvc\Model\Query\Builder
+     * @return Builder
      */
-    public function innerJoin($model, $conditions = null, $alias = null);
+    public function innerJoin($model, $conditions = null, $alias = null): Builder;
 
     /**
      * Adds a LEFT join to the query
@@ -83,9 +81,9 @@ interface BuilderInterface
      * @param string $model
      * @param string $conditions
      * @param string $alias
-     * @return \Phalcon\Mvc\Model\Query\Builder
+     * @return Builder
      */
-    public function leftJoin($model, $conditions = null, $alias = null);
+    public function leftJoin($model, $conditions = null, $alias = null): Builder;
 
     /**
      * Adds a RIGHT join to the query
@@ -93,9 +91,9 @@ interface BuilderInterface
      * @param string $model
      * @param string $conditions
      * @param string $alias
-     * @return \Phalcon\Mvc\Model\Query\Builder
+     * @return Builder
      */
-    public function rightJoin($model, $conditions = null, $alias = null);
+    public function rightJoin($model, $conditions = null, $alias = null): Builder;
 
     /**
      * Return join parts of the query
@@ -108,8 +106,8 @@ interface BuilderInterface
      * Sets conditions for the query
      *
      * @param string $conditions
-     * @param array $bindParams
-     * @param array $bindTypes
+     * @param array  $bindParams
+     * @param array  $bindTypes
      * @return \Phalcon\Mvc\Model\Query\BuilderInterface
      */
     public function where($conditions, $bindParams = null, $bindTypes = null);
@@ -118,9 +116,9 @@ interface BuilderInterface
      * Appends a condition to the current conditions using a AND operator
      *
      * @param string $conditions
-     * @param array $bindParams
-     * @param array $bindTypes
-     * @return \Phalcon\Mvc\Model\Query\Builder
+     * @param array  $bindParams
+     * @param array  $bindTypes
+     * @return Builder
      */
     public function andWhere($conditions, $bindParams = null, $bindTypes = null);
 
@@ -128,9 +126,9 @@ interface BuilderInterface
      * Appends a condition to the current conditions using an OR operator
      *
      * @param string $conditions
-     * @param array $bindParams
-     * @param array $bindTypes
-     * @return \Phalcon\Mvc\Model\Query\Builder
+     * @param array  $bindParams
+     * @param array  $bindTypes
+     * @return Builder
      */
     public function orWhere($conditions, $bindParams = null, $bindTypes = null);
 
@@ -138,10 +136,10 @@ interface BuilderInterface
      * Appends a BETWEEN condition to the current conditions
      *
      * @param string $expr
-     * @param mixed $minimum
-     * @param mixed $maximum
+     * @param mixed  $minimum
+     * @param mixed  $maximum
      * @param string $operator
-     * @return \Phalcon\Mvc\Model\Query\Builder
+     * @return Builder
      */
     public function betweenWhere($expr, $minimum, $maximum, $operator = BuilderInterface::OPERATOR_AND);
 
@@ -149,10 +147,10 @@ interface BuilderInterface
      * Appends a NOT BETWEEN condition to the current conditions
      *
      * @param string $expr
-     * @param mixed $minimum
-     * @param mixed $maximum
+     * @param mixed  $minimum
+     * @param mixed  $maximum
      * @param string $operator
-     * @return \Phalcon\Mvc\Model\Query\Builder
+     * @return Builder
      */
     public function notBetweenWhere($expr, $minimum, $maximum, $operator = BuilderInterface::OPERATOR_AND);
 
@@ -160,7 +158,7 @@ interface BuilderInterface
      * Appends an IN condition to the current conditions
      *
      * @param string $expr
-     * @param array $values
+     * @param array  $values
      * @param string $operator
      * @return BuilderInterface
      */
@@ -170,7 +168,7 @@ interface BuilderInterface
      * Appends a NOT IN condition to the current conditions
      *
      * @param string $expr
-     * @param array $values
+     * @param array  $values
      * @param string $operator
      * @return BuilderInterface
      */
@@ -242,20 +240,20 @@ interface BuilderInterface
      *
      * @return string
      */
-    public function getGroupBy();
+    public function getGroupBy(): string;
 
     /**
      * Returns a PHQL statement built based on the builder parameters
      *
      * @return string
      */
-    public function getPhql();
+    public function getPhql(): string;
 
     /**
      * Returns the query built
      *
-     * @return \Phalcon\Mvc\Model\QueryInterface
+     * @return QueryInterface
      */
-    public function getQuery();
+    public function getQuery(): QueryInterface;
 
 }

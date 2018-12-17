@@ -2,6 +2,8 @@
 
 namespace Phalcon\Mvc\Model\Query;
 
+use Phalcon\DiInterface;
+
 /**
  * Phalcon\Mvc\Model\Query\Builder
  *
@@ -36,84 +38,56 @@ namespace Phalcon\Mvc\Model\Query;
  * $queryBuilder = new \Phalcon\Mvc\Model\Query\Builder($params);
  * </code>
  */
-class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\InjectionAwareInterface
-{
-
+class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\InjectionAwareInterface {
     protected $_dependencyInjector;
-
-
     protected $_columns;
-
-
     protected $_models;
-
-
     protected $_joins;
-
     /**
      * @deprecated Will be removed in version 4.0.0
      */
     protected $_with;
-
-
     protected $_conditions;
-
-
     protected $_group;
-
-
     protected $_having;
-
-
     protected $_order;
-
-
     protected $_limit;
-
-
     protected $_offset;
-
-
     protected $_forUpdate;
-
-
     protected $_sharedLock;
-
-
     protected $_bindParams;
-
-
     protected $_bindTypes;
-
-
     protected $_distinct;
-
-
     protected $_hiddenParamNumber = 0;
-
 
     /**
      * Phalcon\Mvc\Model\Query\Builder constructor
      *
-     * @param mixed $params
-     * @param \Phalcon\DiInterface $dependencyInjector
+     * @param mixed       $params
+     * @param DiInterface $dependencyInjector
      */
-    public function __construct($params = null, \Phalcon\DiInterface $dependencyInjector = null) {}
+    public function __construct($params = null, DiInterface $dependencyInjector = null) {
+    }
 
     /**
      * Sets the DependencyInjector container
      *
-     * @param \Phalcon\DiInterface $dependencyInjector
+     * @param DiInterface $dependencyInjector
      * @return Builder
      */
-    public function setDI(\Phalcon\DiInterface $dependencyInjector) {}
+    public function setDI(DiInterface $dependencyInjector): Builder {
+        $this->_dependencyInjector = $dependencyInjector;
+        return $this;
+    }
 
     /**
      * Returns the DependencyInjector container
      *
-     * @return \Phalcon\DiInterface
+     * @return DiInterface
      */
-    public function getDI() {}
+    public function getDI(): DiInterface {
+        return $this->_dependencyInjector;
+    }
 
     /**
      * Sets SELECT DISTINCT / SELECT ALL flag
@@ -126,14 +100,19 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param mixed $distinct
      * @return Builder
      */
-    public function distinct($distinct) {}
+    public function distinct($distinct): Builder {
+        $this->_distinct = $distinct;
+        return $this;
+    }
 
     /**
      * Returns SELECT DISTINCT / SELECT ALL flag
      *
      * @return bool
      */
-    public function getDistinct() {}
+    public function getDistinct(): bool {
+        return $this->_distinct;
+    }
 
     /**
      * Sets the columns to be queried
@@ -159,14 +138,18 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param mixed $columns
      * @return Builder
      */
-    public function columns($columns) {}
+    public function columns($columns): Builder {
+        $this->_columns = $columns;
+        return $this;
+    }
 
     /**
      * Return the columns to be queried
      *
      * @return string|array
      */
-    public function getColumns() {}
+    public function getColumns() {
+    }
 
     /**
      * Sets the models who makes part of the query
@@ -192,7 +175,8 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param mixed $models
      * @return Builder
      */
-    public function from($models) {}
+    public function from($models) {
+    }
 
     /**
      * Add a model to take part of the query
@@ -212,14 +196,16 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param mixed $with
      * @return Builder
      */
-    public function addFrom($model, $alias = null, $with = null) {}
+    public function addFrom($model, $alias = null, $with = null) {
+    }
 
     /**
      * Return the models who makes part of the query
      *
      * @return string|array
      */
-    public function getFrom() {}
+    public function getFrom() {
+    }
 
     /**
      * Adds an :type: join (by default type - INNER) to the query
@@ -244,7 +230,8 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param string $type
      * @return Builder
      */
-    public function join($model, $conditions = null, $alias = null, $type = null) {}
+    public function join($model, $conditions = null, $alias = null, $type = null) {
+    }
 
     /**
      * Adds an INNER join to the query
@@ -266,7 +253,8 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param string $type
      * @return Builder
      */
-    public function innerJoin($model, $conditions = null, $alias = null) {}
+    public function innerJoin($model, $conditions = null, $alias = null) {
+    }
 
     /**
      * Adds a LEFT join to the query
@@ -280,7 +268,8 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param string $alias
      * @return Builder
      */
-    public function leftJoin($model, $conditions = null, $alias = null) {}
+    public function leftJoin($model, $conditions = null, $alias = null) {
+    }
 
     /**
      * Adds a RIGHT join to the query
@@ -294,14 +283,16 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param string $alias
      * @return Builder
      */
-    public function rightJoin($model, $conditions = null, $alias = null) {}
+    public function rightJoin($model, $conditions = null, $alias = null) {
+    }
 
     /**
      * Return join parts of the query
      *
      * @return array
      */
-    public function getJoins() {}
+    public function getJoins() {
+    }
 
     /**
      * Sets the query WHERE conditions
@@ -325,7 +316,8 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param array $bindTypes
      * @return Builder
      */
-    public function where($conditions, $bindParams = null, $bindTypes = null) {}
+    public function where($conditions, $bindParams = null, $bindTypes = null) {
+    }
 
     /**
      * Appends a condition to the current WHERE conditions using a AND operator
@@ -343,11 +335,12 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * </code>
      *
      * @param string $conditions
-     * @param array $bindParams
-     * @param array $bindTypes
+     * @param array  $bindParams
+     * @param array  $bindTypes
      * @return Builder
      */
-    public function andWhere($conditions, $bindParams = null, $bindTypes = null) {}
+    public function andWhere($conditions, $bindParams = null, $bindTypes = null) {
+    }
 
     /**
      * Appends a condition to the current conditions using an OR operator
@@ -365,11 +358,12 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * </code>
      *
      * @param string $conditions
-     * @param array $bindParams
-     * @param array $bindTypes
+     * @param array  $bindParams
+     * @param array  $bindTypes
      * @return Builder
      */
-    public function orWhere($conditions, $bindParams = null, $bindTypes = null) {}
+    public function orWhere($conditions, $bindParams = null, $bindTypes = null) {
+    }
 
     /**
      * Appends a BETWEEN condition to the current WHERE conditions
@@ -379,12 +373,13 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * </code>
      *
      * @param string $expr
-     * @param mixed $minimum
-     * @param mixed $maximum
+     * @param mixed  $minimum
+     * @param mixed  $maximum
      * @param string $operator
      * @return Builder
      */
-    public function betweenWhere($expr, $minimum, $maximum, $operator = BuilderInterface::OPERATOR_AND) {}
+    public function betweenWhere($expr, $minimum, $maximum, $operator = BuilderInterface::OPERATOR_AND) {
+    }
 
     /**
      * Appends a NOT BETWEEN condition to the current WHERE conditions
@@ -394,12 +389,13 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * </code>
      *
      * @param string $expr
-     * @param mixed $minimum
-     * @param mixed $maximum
+     * @param mixed  $minimum
+     * @param mixed  $maximum
      * @param string $operator
      * @return Builder
      */
-    public function notBetweenWhere($expr, $minimum, $maximum, $operator = BuilderInterface::OPERATOR_AND) {}
+    public function notBetweenWhere($expr, $minimum, $maximum, $operator = BuilderInterface::OPERATOR_AND) {
+    }
 
     /**
      * Appends an IN condition to the current WHERE conditions
@@ -409,11 +405,12 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * </code>
      *
      * @param string $expr
-     * @param array $values
+     * @param array  $values
      * @param string $operator
      * @return \Phalcon\Mvc\Model\Query\BuilderInterface
      */
-    public function inWhere($expr, array $values, $operator = BuilderInterface::OPERATOR_AND) {}
+    public function inWhere($expr, array $values, $operator = BuilderInterface::OPERATOR_AND) {
+    }
 
     /**
      * Appends a NOT IN condition to the current WHERE conditions
@@ -423,18 +420,20 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * </code>
      *
      * @param string $expr
-     * @param array $values
+     * @param array  $values
      * @param string $operator
      * @return \Phalcon\Mvc\Model\Query\BuilderInterface
      */
-    public function notInWhere($expr, array $values, $operator = BuilderInterface::OPERATOR_AND) {}
+    public function notInWhere($expr, array $values, $operator = BuilderInterface::OPERATOR_AND) {
+    }
 
     /**
      * Return the conditions for the query
      *
      * @return string|array
      */
-    public function getWhere() {}
+    public function getWhere() {
+    }
 
     /**
      * Sets an ORDER BY condition clause
@@ -448,14 +447,16 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param string|array $orderBy
      * @return Builder
      */
-    public function orderBy($orderBy) {}
+    public function orderBy($orderBy) {
+    }
 
     /**
      * Returns the set ORDER BY clause
      *
      * @return string|array
      */
-    public function getOrderBy() {}
+    public function getOrderBy() {
+    }
 
     /**
      * Sets the HAVING condition clause
@@ -476,7 +477,8 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param array $bindTypes
      * @return Builder
      */
-    public function having($conditions, $bindParams = null, $bindTypes = null) {}
+    public function having($conditions, $bindParams = null, $bindTypes = null) {
+    }
 
     /**
      * Appends a condition to the current HAVING conditions clause using a AND operator
@@ -493,11 +495,12 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * </code>
      *
      * @param string $conditions
-     * @param array $bindParams
-     * @param array $bindTypes
+     * @param array  $bindParams
+     * @param array  $bindTypes
      * @return Builder
      */
-    public function andHaving($conditions, $bindParams = null, $bindTypes = null) {}
+    public function andHaving($conditions, $bindParams = null, $bindTypes = null) {
+    }
 
     /**
      * Appends a condition to the current HAVING conditions clause using an OR operator
@@ -514,11 +517,12 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * </code>
      *
      * @param string $conditions
-     * @param array $bindParams
-     * @param array $bindTypes
+     * @param array  $bindParams
+     * @param array  $bindTypes
      * @return Builder
      */
-    public function orHaving($conditions, $bindParams = null, $bindTypes = null) {}
+    public function orHaving($conditions, $bindParams = null, $bindTypes = null) {
+    }
 
     /**
      * Appends a BETWEEN condition to the current HAVING conditions clause
@@ -528,12 +532,13 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * </code>
      *
      * @param string $expr
-     * @param mixed $minimum
-     * @param mixed $maximum
+     * @param mixed  $minimum
+     * @param mixed  $maximum
      * @param string $operator
      * @return Builder
      */
-    public function betweenHaving($expr, $minimum, $maximum, $operator = BuilderInterface::OPERATOR_AND) {}
+    public function betweenHaving($expr, $minimum, $maximum, $operator = BuilderInterface::OPERATOR_AND) {
+    }
 
     /**
      * Appends a NOT BETWEEN condition to the current HAVING conditions clause
@@ -543,12 +548,13 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * </code>
      *
      * @param string $expr
-     * @param mixed $minimum
-     * @param mixed $maximum
+     * @param mixed  $minimum
+     * @param mixed  $maximum
      * @param string $operator
      * @return Builder
      */
-    public function notBetweenHaving($expr, $minimum, $maximum, $operator = BuilderInterface::OPERATOR_AND) {}
+    public function notBetweenHaving($expr, $minimum, $maximum, $operator = BuilderInterface::OPERATOR_AND) {
+    }
 
     /**
      * Appends an IN condition to the current HAVING conditions clause
@@ -558,11 +564,12 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * </code>
      *
      * @param string $expr
-     * @param array $values
+     * @param array  $values
      * @param string $operator
      * @return Builder
      */
-    public function inHaving($expr, array $values, $operator = BuilderInterface::OPERATOR_AND) {}
+    public function inHaving($expr, array $values, $operator = BuilderInterface::OPERATOR_AND) {
+    }
 
     /**
      * Appends a NOT IN condition to the current HAVING conditions clause
@@ -572,18 +579,20 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * </code>
      *
      * @param string $expr
-     * @param array $values
+     * @param array  $values
      * @param string $operator
      * @return Builder
      */
-    public function notInHaving($expr, array $values, $operator = BuilderInterface::OPERATOR_AND) {}
+    public function notInHaving($expr, array $values, $operator = BuilderInterface::OPERATOR_AND) {
+    }
 
     /**
      * Return the current having clause
      *
      * @return string
      */
-    public function getHaving() {}
+    public function getHaving() {
+    }
 
     /**
      * Sets a FOR UPDATE clause
@@ -595,7 +604,8 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param bool $forUpdate
      * @return Builder
      */
-    public function forUpdate($forUpdate) {}
+    public function forUpdate($forUpdate) {
+    }
 
     /**
      * Sets a LIMIT clause, optionally an offset clause
@@ -606,18 +616,20 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * $builder->limit("100", "20");
      * </code>
      *
-     * @param int $limit
+     * @param int   $limit
      * @param mixed $offset
      * @return Builder
      */
-    public function limit($limit, $offset = null) {}
+    public function limit($limit, $offset = null) {
+    }
 
     /**
      * Returns the current LIMIT clause
      *
      * @return string|array
      */
-    public function getLimit() {}
+    public function getLimit() {
+    }
 
     /**
      * Sets an OFFSET clause
@@ -629,14 +641,16 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param int $offset
      * @return Builder
      */
-    public function offset($offset) {}
+    public function offset($offset) {
+    }
 
     /**
      * Returns the current OFFSET clause
      *
      * @return string|array
      */
-    public function getOffset() {}
+    public function getOffset() {
+    }
 
     /**
      * Sets a GROUP BY clause
@@ -652,28 +666,32 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param string|array $group
      * @return Builder
      */
-    public function groupBy($group) {}
+    public function groupBy($group) {
+    }
 
     /**
      * Returns the GROUP BY clause
      *
      * @return string
      */
-    public function getGroupBy() {}
+    public function getGroupBy() {
+    }
 
     /**
      * Returns a PHQL statement built based on the builder parameters
      *
      * @return string
      */
-    public final function getPhql() {}
+    public final function getPhql() {
+    }
 
     /**
      * Returns the query built
      *
      * @return \Phalcon\Mvc\Model\QueryInterface
      */
-    public function getQuery() {}
+    public function getQuery() {
+    }
 
     /**
      * Automatically escapes identifiers but only if they need to be escaped.
@@ -681,7 +699,8 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param string $identifier
      * @return string
      */
-    final public function autoescape($identifier) {}
+    final public function autoescape($identifier) {
+    }
 
     /**
      * Appends a BETWEEN condition
@@ -689,11 +708,12 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param string $clause
      * @param string $operator
      * @param string $expr
-     * @param mixed $minimum
-     * @param mixed $maximum
+     * @param mixed  $minimum
+     * @param mixed  $maximum
      * @return Builder
      */
-    protected function _conditionBetween($clause, $operator, $expr, $minimum, $maximum) {}
+    protected function _conditionBetween($clause, $operator, $expr, $minimum, $maximum) {
+    }
 
     /**
      * Appends a NOT BETWEEN condition
@@ -701,11 +721,12 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param string $clause
      * @param string $operator
      * @param string $expr
-     * @param mixed $minimum
-     * @param mixed $maximum
+     * @param mixed  $minimum
+     * @param mixed  $maximum
      * @return Builder
      */
-    protected function _conditionNotBetween($clause, $operator, $expr, $minimum, $maximum) {}
+    protected function _conditionNotBetween($clause, $operator, $expr, $minimum, $maximum) {
+    }
 
     /**
      * Appends an IN condition
@@ -713,10 +734,11 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param string $clause
      * @param string $operator
      * @param string $expr
-     * @param array $values
+     * @param array  $values
      * @return Builder
      */
-    protected function _conditionIn($clause, $operator, $expr, array $values) {}
+    protected function _conditionIn($clause, $operator, $expr, array $values) {
+    }
 
     /**
      * Appends a NOT IN condition
@@ -724,9 +746,10 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param string $clause
      * @param string $operator
      * @param string $expr
-     * @param array $values
+     * @param array  $values
      * @return Builder
      */
-    protected function _conditionNotIn($clause, $operator, $expr, array $values) {}
+    protected function _conditionNotIn($clause, $operator, $expr, array $values) {
+    }
 
 }
