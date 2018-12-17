@@ -2,6 +2,7 @@
 
 namespace Phalcon\Mvc\Model\Query;
 
+use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\DiInterface;
 
 /**
@@ -38,7 +39,7 @@ use Phalcon\DiInterface;
  * $queryBuilder = new \Phalcon\Mvc\Model\Query\Builder($params);
  * </code>
  */
-class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\InjectionAwareInterface {
+class Builder implements BuilderInterface, InjectionAwareInterface {
     protected $_dependencyInjector;
     protected $_columns;
     protected $_models;
@@ -136,9 +137,9 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * </code>
      *
      * @param mixed $columns
-     * @return Builder
+     * @return BuilderInterface
      */
-    public function columns($columns): Builder {
+    public function columns($columns): BuilderInterface {
         $this->_columns = $columns;
         return $this;
     }
@@ -149,6 +150,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @return string|array
      */
     public function getColumns() {
+        return $this->_columns;
     }
 
     /**
@@ -173,9 +175,11 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * </code>
      *
      * @param mixed $models
-     * @return Builder
+     * @return BuilderInterface
      */
-    public function from($models) {
+    public function from($models): BuilderInterface {
+        $this->_models = $models;
+        return $this;
     }
 
     /**
@@ -196,7 +200,32 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param mixed $with
      * @return Builder
      */
-    public function addFrom($model, $alias = null, $with = null) {
+    public function addFrom($model, $alias = null, $with = null): BuilderInterface {
+        if ($with !== 'null') {
+            trigger_error(
+                "The third parameter 'with' is deprecated and will be removed in future releases.",
+                E_DEPRECATED
+            );
+        }
+
+        $models       = $this->_models;
+        $currentModel = null;
+        if (!is_array($models)) {
+            if ($models !== null) {
+                $currentModel = $models;
+                $models       = [$currentModel];
+            } else {
+                $models = [];
+            }
+        }
+        if (is_string($alias)) {
+            $models[$alias] = $model;
+        } else {
+            $models[] = $model;
+        }
+
+        $this->_models = $models;
+        return $this;
     }
 
     /**
@@ -407,7 +436,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param string $expr
      * @param array  $values
      * @param string $operator
-     * @return \Phalcon\Mvc\Model\Query\BuilderInterface
+     * @return BuilderInterface
      */
     public function inWhere($expr, array $values, $operator = BuilderInterface::OPERATOR_AND) {
     }
@@ -422,7 +451,7 @@ class Builder implements \Phalcon\Mvc\Model\Query\BuilderInterface, \Phalcon\Di\
      * @param string $expr
      * @param array  $values
      * @param string $operator
-     * @return \Phalcon\Mvc\Model\Query\BuilderInterface
+     * @return BuilderInterface
      */
     public function notInWhere($expr, array $values, $operator = BuilderInterface::OPERATOR_AND) {
     }

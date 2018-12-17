@@ -42,7 +42,7 @@ interface BuilderInterface {
      *
      * @param string $model
      * @param string $alias
-     * @return \Phalcon\Mvc\Model\Query\BuilderInterface
+     * @return BuilderInterface
      */
     public function addFrom($model, $alias = null): BuilderInterface;
 
@@ -60,9 +60,9 @@ interface BuilderInterface {
      * @param string $conditions
      * @param string $alias
      * @param string $type
-     * @return \Phalcon\Mvc\Model\Query\BuilderInterface
+     * @return BuilderInterface
      */
-    public function join($model, $conditions = null, $alias = null, $type = null);
+    public function join($model, $conditions = null, $alias = null, $type = null): BuilderInterface;
 
     /**
      * Adds an INNER join to the query
@@ -70,7 +70,6 @@ interface BuilderInterface {
      * @param string $model
      * @param string $conditions
      * @param string $alias
-     * @param string $type
      * @return Builder
      */
     public function innerJoin($model, $conditions = null, $alias = null): Builder;
@@ -100,7 +99,7 @@ interface BuilderInterface {
      *
      * @return array
      */
-    public function getJoins();
+    public function getJoins(): array;
 
     /**
      * Sets conditions for the query
@@ -108,9 +107,9 @@ interface BuilderInterface {
      * @param string $conditions
      * @param array  $bindParams
      * @param array  $bindTypes
-     * @return \Phalcon\Mvc\Model\Query\BuilderInterface
+     * @return BuilderInterface
      */
-    public function where($conditions, $bindParams = null, $bindTypes = null);
+    public function where($conditions, $bindParams = null, $bindTypes = null): BuilderInterface;
 
     /**
      * Appends a condition to the current conditions using a AND operator
@@ -120,7 +119,7 @@ interface BuilderInterface {
      * @param array  $bindTypes
      * @return Builder
      */
-    public function andWhere($conditions, $bindParams = null, $bindTypes = null);
+    public function andWhere($conditions, $bindParams = null, $bindTypes = null): Builder;
 
     /**
      * Appends a condition to the current conditions using an OR operator
@@ -130,7 +129,7 @@ interface BuilderInterface {
      * @param array  $bindTypes
      * @return Builder
      */
-    public function orWhere($conditions, $bindParams = null, $bindTypes = null);
+    public function orWhere($conditions, $bindParams = null, $bindTypes = null): Builder;
 
     /**
      * Appends a BETWEEN condition to the current conditions
@@ -141,7 +140,7 @@ interface BuilderInterface {
      * @param string $operator
      * @return Builder
      */
-    public function betweenWhere($expr, $minimum, $maximum, $operator = BuilderInterface::OPERATOR_AND);
+    public function betweenWhere($expr, $minimum, $maximum, $operator = BuilderInterface::OPERATOR_AND): Builder;
 
     /**
      * Appends a NOT BETWEEN condition to the current conditions
@@ -152,7 +151,7 @@ interface BuilderInterface {
      * @param string $operator
      * @return Builder
      */
-    public function notBetweenWhere($expr, $minimum, $maximum, $operator = BuilderInterface::OPERATOR_AND);
+    public function notBetweenWhere($expr, $minimum, $maximum, $operator = BuilderInterface::OPERATOR_AND): Builder;
 
     /**
      * Appends an IN condition to the current conditions
@@ -162,7 +161,7 @@ interface BuilderInterface {
      * @param string $operator
      * @return BuilderInterface
      */
-    public function inWhere($expr, array $values, $operator = BuilderInterface::OPERATOR_AND);
+    public function inWhere($expr, array $values, $operator = BuilderInterface::OPERATOR_AND): BuilderInterface;
 
     /**
      * Appends a NOT IN condition to the current conditions
@@ -172,7 +171,7 @@ interface BuilderInterface {
      * @param string $operator
      * @return BuilderInterface
      */
-    public function notInWhere($expr, array $values, $operator = BuilderInterface::OPERATOR_AND);
+    public function notInWhere($expr, array $values, $operator = BuilderInterface::OPERATOR_AND): BuilderInterface;
 
     /**
      * Return the conditions for the query
@@ -185,9 +184,9 @@ interface BuilderInterface {
      * Sets an ORDER BY condition clause
      *
      * @param string $orderBy
-     * @return \Phalcon\Mvc\Model\Query\BuilderInterface
+     * @return BuilderInterface
      */
-    public function orderBy($orderBy);
+    public function orderBy($orderBy): BuilderInterface;
 
     /**
      * Return the set ORDER BY clause
@@ -200,9 +199,9 @@ interface BuilderInterface {
      * Sets a HAVING condition clause
      *
      * @param string $having
-     * @return \Phalcon\Mvc\Model\Query\BuilderInterface
+     * @return BuilderInterface
      */
-    public function having($having);
+    public function having($having): BuilderInterface;
 
     /**
      * Returns the HAVING condition clause
@@ -216,9 +215,9 @@ interface BuilderInterface {
      *
      * @param int $limit
      * @param int $offset
-     * @return \Phalcon\Mvc\Model\Query\BuilderInterface
+     * @return BuilderInterface
      */
-    public function limit($limit, $offset = null);
+    public function limit($limit, $offset = null): BuilderInterface;
 
     /**
      * Returns the current LIMIT clause
@@ -231,9 +230,9 @@ interface BuilderInterface {
      * Sets a LIMIT clause
      *
      * @param string|array $group
-     * @return \Phalcon\Mvc\Model\Query\BuilderInterface
+     * @return BuilderInterface
      */
-    public function groupBy($group);
+    public function groupBy($group): BuilderInterface;
 
     /**
      * Returns the GROUP BY clause
